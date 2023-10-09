@@ -1,0 +1,37 @@
+version: "3"
+services:
+  users:
+    build:
+      dockerfile: Dockerfile
+      context: ./users
+    container_name: users
+    ports:
+      - "3001:3001"
+    restart: always
+    # depends_on:
+    #   - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/users/node_modules
+  orders:
+    build:
+      dockerfile: Dockerfile
+      context: ./orders
+    container_name: orders
+    ports:
+      - "3002:3002"
+    restart: always
+    # depends_on:
+    #   - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/orders/node_modules
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway
+    depends_on:
+      - users
+      - orders
+    ports:
+      - 80:80
