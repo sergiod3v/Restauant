@@ -6,16 +6,25 @@ const port = process.env.PORT || 3001;
 const baseURL = process.env.BASE_URL || "/api/v1";
 
 const userRouter = require('./routes/user-routes');
+const authRouter = require('./routes/auth-routes');
 const connectDB = require('./db/connect');
-//middleware
-app.use(express.json())
+
+//middleware vars
+const notFoundMiddleware = require('./middleware/not-found');
+const authenticateUser = require('./middleware/authentication');
+
 
 //rotuers
-app.use(`${baseURL}/users`, userRouter)
+app.use(express.json())
+
+app.use(`${baseURL}/auth`, authRouter)
+app.use(`${baseURL}/users`, authenticateUser, userRouter)
 
 app.get(`${baseURL}/`, (req, res) => {
   res.json({ msg: "Microservices Connected" })
 })
+
+app.use(notFoundMiddleware)
 
 const start = async () => {
   try {
