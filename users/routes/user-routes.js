@@ -8,7 +8,6 @@ const {
   deleteUser,
 } = require('../controllers/user-controller')
 
-
 router.route('/').get(getAllUsers)
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser)
 

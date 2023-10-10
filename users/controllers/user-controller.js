@@ -19,7 +19,6 @@ const getAllUsers = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-  console.log("controller accessed")
   try {
     const { id: userID } = req.params
     await getSingleService(userID, res)
@@ -33,8 +32,7 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id: userID } = req.params
-    console.log(userID)
-    await getAllService(userID, res)
+    await updateService(userID, req.body, res)
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -45,8 +43,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id: userID } = req.params
-    console.log(userID)
-    await getAllService(userID, res)
+    await deleteService(userID, res)
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

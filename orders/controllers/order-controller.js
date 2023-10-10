@@ -1,26 +1,69 @@
 const mongoose = require('mongoose')
+const Order = require('../models/order')
+const { StatusCodes } = require('http-status-codes')
+const {
+  getAllService,
+  getSingleService,
+  updateService,
+  deleteService,
+} = require('../services/order-service')
 
 const getAllOrders = async (req, res) => {
-  return res.json({ orders: [] })
+  try {
+    await getAllService(req, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
+
 const getOrder = async (req, res) => {
-  console.log(req.params)
-  return res.json({ order })
+  try {
+    const { id: orderID } = req.params
+    await getSingleService(orderID, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
+}
+
+const createOrder = async (req, res) => {
+  try {
+    await createService(req.body, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
 const updateOrder = async (req, res) => {
-  return res.json({ newOrder })
+  try {
+    const { id: orderID } = req.params
+    await updateService(orderID, req.body, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
-const createOrder = async (req, res) => {
-  return res.json({ msg: "order created" })
-}
+
 const deleteOrder = async (req, res) => {
-  return res.json({ msg: "order deleted" })
+  try {
+    const { id: orderID } = req.params
+    await deleteService(orderID, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
 
 module.exports = {
   getAllOrders,
   getOrder,
   updateOrder,
-  createOrder,
   deleteOrder,
+  createOrder
 }
