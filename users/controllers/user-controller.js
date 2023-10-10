@@ -1,18 +1,57 @@
 const mongoose = require('mongoose')
 const User = require('../models/user')
 const { StatusCodes } = require('http-status-codes')
+const {
+  getAllService,
+  getSingleService,
+  updateService,
+  deleteService,
+} = require('../services/user-service')
+
 const getAllUsers = async (req, res) => {
-  const users = await User.find({})
-  return res.json({ users })
+  try {
+    await getAllService(req, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
+
 const getUser = async (req, res) => {
-  return res.json({ user: {} })
+  console.log("controller accessed")
+  try {
+    const { id: userID } = req.params
+    await getSingleService(userID, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
+
 const updateUser = async (req, res) => {
-  return res.json({ new_user: {} })
+  try {
+    const { id: userID } = req.params
+    console.log(userID)
+    await getAllService(userID, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
+
 const deleteUser = async (req, res) => {
-  return res.json({ msg: "User deleted" })
+  try {
+    const { id: userID } = req.params
+    console.log(userID)
+    await getAllService(userID, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
 }
 
 module.exports = {

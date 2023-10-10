@@ -10,7 +10,7 @@ const authRouter = require('./routes/auth-routes');
 const connectDB = require('./db/connect');
 
 //middleware vars
-const notFoundMiddleware = require('./middleware/not-found');
+const notFoundMiddleware = require('../common/middleware/not-found');
 const authenticateUser = require('./middleware/authentication');
 
 
@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(`${baseURL}/auth`, authRouter)
 app.use(`${baseURL}/users`, authenticateUser, userRouter)
 
-app.get(`${baseURL}/`, (req, res) => {
+app.get(`${baseURL}`, (req, res) => {
   res.json({ msg: "Microservices Connected" })
 })
 
