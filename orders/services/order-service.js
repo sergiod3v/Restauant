@@ -1,10 +1,12 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
 const Order = require('../models/order')
 const { StatusCodes } = require('http-status-codes')
+const axios = require('axios')
 
 const getAllService = async (req, res) => {
-  const orders = await Order.find({})
-  res.status(StatusCodes.OK).json({ data: orders })
+  const orders = await Order.find({}).select('-__v')
+  res.status(StatusCodes.OK).json({ orders })
 }
 
 const getSingleService = async (id, res) => {
@@ -21,6 +23,7 @@ const getSingleService = async (id, res) => {
 }
 
 const createService = async (body, res) => {
+  console.log(`create order: ${body}`)
   const { name } = body
   if (!name) {
     res

@@ -6,6 +6,7 @@ const {
   getSingleService,
   updateService,
   deleteService,
+  createService
 } = require('../services/order-service')
 
 const getAllOrders = async (req, res) => {
