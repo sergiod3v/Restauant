@@ -1,0 +1,39 @@
+.white {
+  color: white;
+}
+
+.l-black {
+  color: $l-black;
+}
+
+.gray {
+  color: $gray;
+}
+
+.white-bg {
+  background: white;
+}
+
+.beige {
+  color: $beige;
+}
+
+.beige-bg {
+  background-color: $beige;
+}
+
+.black-bg {
+  background: #000;
+}
+
+.no-bg {
+  background: transparent;
+}
+
+.border-1-gray {
+  border: 1px solid $border-color;
+}
+
+.border-2-white {
+  border: 2px solid white;
+}

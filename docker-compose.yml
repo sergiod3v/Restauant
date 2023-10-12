@@ -26,6 +26,19 @@ services:
     volumes:
       - .:/app
       - /app/orders/node_modules
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: ./app
+    container_name: app
+    ports:
+      - "3000:3000"
+    restart: always
+    # depends_on:
+    #   - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/app/node_modules
   nginx-proxy:
     build:
       dockerfile: Dockerfile
