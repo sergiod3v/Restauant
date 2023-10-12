@@ -47,6 +47,8 @@ const registerService = async (body, res) => {
 const loginService = async (body, res) => {
   const { email, password } = body
 
+  console.log(body)
+
   if (!email) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -81,7 +83,7 @@ const loginService = async (body, res) => {
     });
   }
   res.status(StatusCodes.OK).json({
-    msg: "Successfully logged in!",
+    message: "Successfully logged in!",
     user: {
       id: user._id,
       name: user.name,
