@@ -23,6 +23,7 @@ export const db_get = async (endpoint) => {
 }
 
 export const db_post = async (endpoint, body) => {
+  console.log(JSON.stringify(body))
   try {
     const resp = await fetch(`${URL}${endpoint}`, {
       method: 'POST',

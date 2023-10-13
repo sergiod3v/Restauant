@@ -47,8 +47,6 @@ const registerService = async (body, res) => {
 const loginService = async (body, res) => {
   const { email, password } = body
 
-  console.log(body)
-
   if (!email) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -94,7 +92,50 @@ const loginService = async (body, res) => {
   })
 }
 
+const checkPalancaService = (body, res) => {
+  const { palanca } = body
+  const palancas = {
+    "0": 'putota',
+    "1": 'nessie',
+    "2": 'sergio',
+    "3": 'solomiyos',
+    "4": 'sdvsf',
+    "5": 'cr7',
+    "6": 'corrupcion',
+    "7": 'profe',
+    "8": 'laravelesunamierda',
+    "9": 'fuckphp',
+    "10": 'agtnode',
+    "11": 'fuckblade',
+  }
+
+  if (!palanca) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      error: 'Please provide a palanca',
+    });
+  } else if (Object.values(palancas).includes(palanca)) {
+
+    res.status(StatusCodes.OK).json({
+      message: "Palanca exitosa corrupto de mierda",
+      access: true
+    })
+  } else {
+    if (palanca === 'porfavortengohambre') {
+      res.status(StatusCodes.OK).json({
+        message: "no es mi problema, pobre",
+        access: false
+      })
+    }
+    res.status(StatusCodes.OK).json({
+      message: "Esa palanca no sirve 😂😂, pobre",
+      access: false
+    })
+  }
+
+}
+
 module.exports = {
   registerService,
-  loginService
+  loginService,
+  checkPalancaService
 }

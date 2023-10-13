@@ -4,6 +4,18 @@
   box-sizing: border-box;
 }
 
+#app {
+  min-height: 100vh;
+
+  #page {
+    height: 100%;
+
+    #content {
+      height: 100%;
+    }
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -124,15 +136,32 @@ body {
 
 /*---------------*/
 
-button {
+button,
+.button {
   border: none;
   background: transparent;
+}
+
+.error-box {
+  background: #eb212eb3;
+  width: 100%;
+  border-radius: 5px;
+  color: white;
+  padding: 16px 32px;
+}
+
+.success-box {
+  background: #26D07C;
+  width: 100%;
+  border-radius: 5px;
+  color: white;
+  padding: 16px 32px;
 }
 
 /*---------------*/
 .wrapper {
   width: 90%;
-  margin: auto;
+  margin: 0 auto;
   max-width: 1760px;
 }
 
@@ -142,10 +171,6 @@ button {
 
 .wrapper.w83p {
   width: 83%;
-}
-
-.op-0_7 {
-  opacity: .7;
 }
 
 .wrapper.w75p {
@@ -164,8 +189,27 @@ button {
   width: 53%;
 }
 
+.op-0_7 {
+  opacity: .7;
+}
+
 .no-wrap {
   white-space: nowrap;
+}
+
+input,
+.input {
+  border: 1px solid $gray;
+
+  padding: 20px 24px;
+  border-radius: 10px;
+
+  font-size: 20px;
+}
+
+input:focus,
+.input:focus {
+  outline: none;
 }
 
 @media (min-width: 1001px) {

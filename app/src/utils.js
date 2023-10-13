@@ -2,7 +2,6 @@ import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
 export const userData = {
   "name": cookies.get('name'),
-  "username": cookies.get('username'),
   "role": cookies.get('role'),
   "email": cookies.get('email'),
   "token": cookies.get('token'),

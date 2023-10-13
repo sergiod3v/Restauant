@@ -1,0 +1,60 @@
+$blue-1: #27374D;
+$blue-2: #526D82;
+$blue-3: #9DB2BF;
+$blue-4: #DDE6ED;
+
+$light-1: #C4DFDF;
+$light-2: #D2E9E9;
+$light-3: #E3F4F4;
+$light-4: #F8F6F4;
+
+$gray: #b3b3b3;
+
+.login-template {
+  width: 100%;
+  max-width: 750px;
+
+  .title {
+    margin-bottom: 32px;
+    color: $light-3;
+    text-decoration: dotted;
+  }
+
+  form {
+    input {
+      background: $blue-2;
+      color: $blue-1;
+      font-weight: 500;
+      border: none;
+    }
+
+    input::placeholder,
+    input {
+      color: $light-4;
+    }
+
+    button {
+      background: $blue-4;
+      padding: 16px 64px;
+      display: block;
+      width: fit-content;
+      border-radius: 5px;
+      text-transform: capitalize;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+  }
+
+  form {
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .login-template-link {
+    text-decoration: underline;
+    color: $light-3;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+}

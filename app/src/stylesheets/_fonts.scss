@@ -1,9 +1,11 @@
 * {
-  font-family: "lato", sans-serif;
+  font-family: Montserrat, sans-serif;
 }
 
-.josefin {
-  font-family: 'Josefin Sans';
+.link,
+button,
+.button {
+  cursor: pointer;
 }
 
 .thin {
@@ -124,15 +126,15 @@
 }
 
 h1 {
-  font-size: 55px;
-}
-
-h2 {
   font-size: 84px;
 }
 
+h2 {
+  font-size: 60px;
+}
+
 h3 {
-  font-size: 36px;
+  font-size: 55px;
 }
 
 a {

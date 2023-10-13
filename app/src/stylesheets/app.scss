@@ -2,3 +2,10 @@
 @import 'general';
 @import 'fonts';
 @import 'colors';
+
+/*Views*/
+@import url(../stylesheets/views/login-routes/login-template-general.scss);
+@import url(../stylesheets/views/login-routes/login-templates.scss);
+@import url(../stylesheets/views/login-routes/register.scss);
+/*Fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@600&display=swap');

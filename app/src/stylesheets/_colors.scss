@@ -2,38 +2,78 @@
   color: white;
 }
 
-.l-black {
-  color: $l-black;
+.white-bg {
+  background: white;
+}
+
+.black-bg {
+  background: black;
 }
 
 .gray {
   color: $gray;
 }
 
-.white-bg {
-  background: white;
+.blue-1 {
+  color: $blue-1;
 }
 
-.beige {
-  color: $beige;
+.blue-2 {
+  color: $blue-2;
 }
 
-.beige-bg {
-  background-color: $beige;
+.blue-3 {
+  color: $blue-3;
 }
 
-.black-bg {
-  background: #000;
+.blue-4 {
+  color: $blue-4;
 }
 
-.no-bg {
-  background: transparent;
+.light-1 {
+  color: $light-1;
 }
 
-.border-1-gray {
-  border: 1px solid $border-color;
+.light-2 {
+  color: $light-2;
 }
 
-.border-2-white {
-  border: 2px solid white;
+.light-3 {
+  color: $light-3;
+}
+
+.light-4 {
+  color: $light-4;
+}
+
+.blue-1-bg {
+  background-color: $blue-1;
+}
+
+.blue-2-bg {
+  background-color: $blue-2;
+}
+
+.blue-3-bg {
+  background-color: $blue-3;
+}
+
+.blue-4-bg {
+  background-color: $blue-4;
+}
+
+.light-1-bg {
+  background-color: $light-1;
+}
+
+.light-2-bg {
+  background-color: $light-2;
+}
+
+.light-3-bg {
+  background-color: $light-3;
+}
+
+.light-4-bg {
+  background-color: $light-4;
 }

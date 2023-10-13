@@ -1,0 +1,36 @@
+#register-view {
+  .register-options {
+    margin: 24px 0;
+    gap: 0 24px;
+
+    .option {
+      padding: 25px 40px;
+      border-radius: 5px;
+      text-align: center;
+      border: 2px solid #27374D;
+      transition: all .15s;
+    }
+
+    .option:hover,
+    .option.selected {
+      border: 2px solid #F8F6F4;
+      background: #27374D;
+      color: #F8F6F4;
+    }
+  }
+
+  form {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 24px 12px;
+
+    .question {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
