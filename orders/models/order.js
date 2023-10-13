@@ -8,6 +8,8 @@ const OrderSchema = new mongoose.Schema(
       minLength: 3,
       maxLength: 50,
     },
+    recipe: { type: mongoose.Types.ObjectId, ref: 'Recipe' },
+    assigned_users: Array,
   },
   {
     timestamps: true
