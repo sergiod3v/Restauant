@@ -8,16 +8,16 @@ const baseURL = process.env.BASE_URL || "/api/v1";
 const connectDB = require('./db/connect');
 
 const orderRouter = require('./routes/order-routes');
-const recipeRouter = require('./routes/recipe-routes');
 const ingredientRouter = require('./routes/ingredient-routes');
+const recipeRouter = require('./routes/recipe-routes');
 //middleware
 const notFoundMiddleware = require('../common/middleware/not-found');
 const authenticateUserMiddleware = require('./middleware/authentication');
 app.use(express.json())
 //rotuers
 app.use(`${baseURL}/orders`, authenticateUserMiddleware, orderRouter)
-app.use(`${baseURL}/ingredients`, authenticateUserMiddleware, orderRouter)
-app.use(`${baseURL}/recipes`, authenticateUserMiddleware, orderRouter)
+app.use(`${baseURL}/ingredients`, authenticateUserMiddleware, ingredientRouter)
+app.use(`${baseURL}/recipes`, authenticateUserMiddleware, recipeRouter)
 app.use(notFoundMiddleware)
 
 const start = async () => {

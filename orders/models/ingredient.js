@@ -8,6 +8,7 @@ const IngredientSchema = new mongoose.Schema(
       required: [true, 'Please provide name'],
       minLength: 1,
       maxLength: 50,
+      unique: [true, 'Ingredient already exists']
     }
   }, { timestamps: true }
 )

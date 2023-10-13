@@ -10,6 +10,7 @@ const getAllService = async (req, res) => {
 const getSingleService = async (id, res) => {
   const recipe = await Recipe.findById(id)
   if (recipe) {
+    console.log(recipe)
     res.status(StatusCodes.OK).json({ recipe })
   } else {
     res
@@ -21,7 +22,7 @@ const getSingleService = async (id, res) => {
 }
 
 const createService = async (body, res) => {
-  const { name } = body
+  const { name, ingredients } = body
   if (!name) {
     res
       .status(StatusCodes.BAD_REQUEST)
@@ -29,6 +30,14 @@ const createService = async (body, res) => {
         error: `Please provide a name.`
       })
   }
+  if (!ingredients || ingredients.length < 4) {
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({
+        error: `Please provide a list of at least 4 ingredients.`
+      })
+  }
+
   const recipe = await Recipe.create(body)
   res
     .status(StatusCodes.OK)
@@ -37,6 +46,7 @@ const createService = async (body, res) => {
       recipe: {
         id: recipe._id,
         name: recipe.name,
+        ingredients: recipe.ingredients,
       }
     })
 }
@@ -58,6 +68,7 @@ const updateService = async (id, body, res) => {
       recipe: {
         id: recipe._id,
         name: recipe.name,
+        ingredients: recipe.ingredients,
       }
     })
 }

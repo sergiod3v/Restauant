@@ -24,22 +24,26 @@ const getSingleService = async (id, res) => {
 
 const createService = async (body, res) => {
   console.log(`create order: ${body}`)
-  const { name } = body
-  if (!name) {
+  const { recipe } = body
+  if (!recipe) {
     res
       .status(StatusCodes.BAD_REQUEST)
       .json({
-        error: `Please provide a name.`
+        error: `Every order must have a recipe.`
       })
   }
   const order = await Order.create(body)
+  console.log(order)
   res
     .status(StatusCodes.OK)
     .json({
       message: "Order successfully created!",
       order: {
         id: order._id,
-        name: order.name,
+        recipe: order.recipe,
+        assigned_users: order.assigned_users,
+        recipe: order.recipe,
+        createdAt: order.createdAt,
       }
     })
 }
