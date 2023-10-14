@@ -5,10 +5,23 @@ const express = require('express');
 const Helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const http = require('http')
+const socketIO = require('socket.io')
 
 const app = express();
 const port = process.env.PORT || 3002;
 const baseURL = process.env.BASE_URL || "/api/v1";
+
+const server = http.createServer(app)
+const io = socketIO(server)
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
 
 const connectDB = require('./db/connect');
 

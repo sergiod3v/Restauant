@@ -11,7 +11,6 @@ const getAllService = async (req, res) => {
 
 const getSingleService = async (id, res) => {
   const order = await Order.findById(id).populate('recipe').lean()
-  console.log(order)
   if (order) {
     res.status(StatusCodes.OK).json({ order })
   } else {
