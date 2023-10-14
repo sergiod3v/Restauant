@@ -43,6 +43,8 @@ const login = async () => {
   }
   const data = await toRaw(db_post('/auth/login', body))
 
+  console.log(data)
+
   cookies.set("id", data.user.id)
   cookies.set("token", data.token)
   cookies.set("name", data.user.name)

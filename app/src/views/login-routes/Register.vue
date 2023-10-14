@@ -25,13 +25,14 @@
           <p class="f-16 light-1">
             Dame la palanca, sabes de qué hablo.
           </p>
-          <input v-model="palanca" type="text" name="name" id="name-input" placeholder="...">
+          <input v-model="palanca" type="text" name="name" id="palanca-input" placeholder="...">
         </div>
         <button type="submit">
           check
         </button>
       </form>
       <div v-show="validPalanca" class="manager-register">
+
         <p class="f-24 light-4" style="margin-bottom: 12px;">
           Muy bien hecho, corrupto
         </p>
@@ -44,14 +45,15 @@
             Register
           </button>
         </form>
-        <div v-show="success" class="success-box">
-          Registro Exitoso!
-        </div>
       </div>
       <div v-show="palancaError" class="error-box" style="margin-bottom: 12px;">
         {{ palancaErrorMessage }}
       </div>
-      <form v-show="registerOption === 'user'" @submit.prevent="register" class="grid">
+
+      <div v-if="success" class="success-box">
+        {{ userRegisterMessage }}
+      </div>
+      <form v-else v-show="registerOption === 'user'" @submit.prevent="registerUser" class="grid">
         <div class="question">
           <p class="f-16 light-1">
             ¿Cuál es tu nombre?
@@ -68,26 +70,41 @@
           <p class="f-16 light-1">
             ¿Universidad Publica o Privada?
           </p>
-          <input v-model="question_3" type="text" name="question_3" id="name-input" placeholder="publica o privada">
+          <input v-model="question_3" type="text" name="question_3" id="question_3-input" placeholder="publica o privada">
         </div>
         <div class="question">
           <p class="f-16 light-1">
             ¿Le has echado agua al shampoo?
           </p>
-          <input v-model="question_4" type="text" name="question_4" id="email-input" placeholder="si o no">
+          <input v-model="question_4" type="text" name="question_4" id="question_4-input" placeholder="si o no">
         </div>
         <div class="question">
           <p class="f-16 light-1">
-            ¿Antes de fumar bazuko fumabas vapo?
+            ¿Antes de fumar bazuka fumabas vapo?
           </p>
-          <input v-model="question_5" type="text" name="question_3" id="name-input" placeholder="si o no">
+          <input v-model="question_5" type="text" name="question_3" id="question_5-input" placeholder="si o no">
         </div>
         <div class="question">
           <p class="f-16 light-1">
             ¿Morat o Crack Family?
           </p>
-          <input v-model="question_6" type="text" name="question_4" id="email-input"
+          <input v-model="question_6" type="text" name="question_4" id="question_6-input"
             placeholder="Escribe alguno de los dos">
+        </div>
+        <div class="question">
+          <p class="f-16 light-1">
+            Saludas a los trabajadores de un edificio?
+          </p>
+          <input v-model="question_7" type="text" name="question_4" id="question_7-input" placeholder="si o no">
+        </div>
+        <div class="question">
+          <p class="f-16 light-1">
+            Password
+          </p>
+          <input v-model="password" type="text" name="question_4" id="password-input" placeholder="Password">
+        </div>
+        <div v-show="success" class="success-box">
+          Registro Exitoso! Ve a la pestaña de login.
         </div>
         <button type="submit">
           Register
@@ -123,12 +140,16 @@ const managerPassword = ref('')
 
 const name = ref('')
 const email = ref('')
+const password = ref('')
 const question_3 = ref('')
 const question_4 = ref('')
 const question_5 = ref('')
 const question_6 = ref('')
+const question_7 = ref('')
+const userRegisterMessage = ref('')
 
 const success = ref(false)
+
 const setRegisterOption = (option) => {
   registerOption.value = option
 }
@@ -147,11 +168,48 @@ const checkPalanca = async () => {
       setTimeout(() => {
         palancaErrorMessage.value = ''
         palancaError.value = false
-      }, 50000)
+      }, 5000)
     }
   } catch (error) {
     validPalanca.value = false
   }
+}
+
+const registerUser = async () => {
+  let obj = {
+    name: name.value,
+    email: email.value,
+    password: password.value
+  }
+
+  if (
+    question_3 === 'privada' &&
+    question_4 === 'no' &&
+    question_5 === 'si' &&
+    question_6 === 'morat' &&
+    question_7 === 'no'
+  ) {
+    obj.role = "gomelo_user"
+  } else {
+    obj.role = "normal_user"
+  }
+  console.log(
+    question_3.value,
+    question_4.value,
+    question_5.value,
+    question_6.value,
+    question_7.value
+  )
+  const res = await toRaw(db_post('/auth/register', obj))
+  success.value = true
+  if (obj.role === 'gomelo_user') {
+    userRegisterMessage.value = "Por pirobo se te asignó un usuario gomelo."
+  } else {
+    userRegisterMessage.value = "Me caes bien, serás un usuario normal."
+  }
+  setTimeout(() => {
+    success.value = false
+  }, 5000)
 }
 
 const registerManager = async () => {
@@ -167,9 +225,6 @@ const registerManager = async () => {
   setTimeout(() => {
     success.value = false
   }, 5000)
-  setTimeout(() => {
-    props.triggerViewChange('login')
-  }, 500)
 }
 </script>
 
