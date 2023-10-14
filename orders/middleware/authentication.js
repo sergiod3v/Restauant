@@ -3,7 +3,6 @@ const { StatusCodes } = require('http-status-codes')
 const axios = require('axios')
 
 const auth = async (req, res, next) => {
-  // check header
   const authHeader = req.headers.authorization
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     res
@@ -12,6 +11,7 @@ const auth = async (req, res, next) => {
         error: "Unauthorized, please login."
       })
   }
+  console.log(`Auth header: ${authHeader}`)
   const token = authHeader.split(' ')[1]
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET)

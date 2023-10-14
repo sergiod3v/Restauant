@@ -4,6 +4,11 @@ const OrderSchema = new mongoose.Schema(
   {
     recipe: { type: mongoose.Types.ObjectId, ref: 'Recipe' },
     assigned_users: Array,
+    status: {
+      type: String,
+      enum: ['pending', 'completed', 'cancelled'],
+      default: 'pending'
+    }
   },
   {
     timestamps: true

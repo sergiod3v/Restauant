@@ -183,11 +183,11 @@ const registerUser = async () => {
   }
 
   if (
-    question_3 === 'privada' &&
-    question_4 === 'no' &&
-    question_5 === 'si' &&
-    question_6 === 'morat' &&
-    question_7 === 'no'
+    question_3 === "privada" &&
+    question_4 === "no" &&
+    question_5 === "si" &&
+    question_6 === "morat" &&
+    question_7 === "no"
   ) {
     obj.role = "gomelo_user"
   } else {
