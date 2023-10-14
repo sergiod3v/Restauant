@@ -10,7 +10,6 @@ const getAllService = async (req, res) => {
 const getSingleService = async (id, res) => {
   const recipe = await Recipe.findById(id)
   if (recipe) {
-    console.log(recipe)
     res.status(StatusCodes.OK).json({ recipe })
   } else {
     res

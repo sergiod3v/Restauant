@@ -4,14 +4,19 @@
       Name: {{ user.name }}
     </p>
 
-    <p class="f-16 blue-3" v-for="order in orders" :key="order.id">
-      {{ order }}
-    </p>
+    <div v-for="order in orders" :key="order.id">
+      <p class="f-20 blue-1 medium">
+        Order Status: {{ order.status }} <br>
+        Recipe name: {{ order.recipe.name }} <br>
+        Assigned Users: {{ order.assigned_users.length == 0 ? "No users" : order.assigned_users }}
+      </p>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, toRaw } from 'vue';
+import { ref, onMounted, toRaw, watch } from 'vue';
 import { db_get } from '../api';
 import { userData } from '../utils';
 const user = ref({})
@@ -22,9 +27,11 @@ onMounted(async () => {
   user.value = userDB.user
 
   const ordersDB = await toRaw(db_get(`/orders`))
-  console.log(ordersDB)
-  // orders.value = ordersDB
+  orders.value = ordersDB.orders
+
+  console.log(orders.value)
 })
+
 </script>
 
 

@@ -11,7 +11,6 @@ const auth = async (req, res, next) => {
         error: "Unauthorized, please login."
       })
   }
-  console.log(`Auth header: ${authHeader}`)
   const token = authHeader.split(' ')[1]
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET)

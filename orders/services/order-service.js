@@ -5,12 +5,13 @@ const { StatusCodes } = require('http-status-codes')
 const axios = require('axios')
 
 const getAllService = async (req, res) => {
-  const orders = await Order.find({}).select('-__v')
+  const orders = await Order.find({}).populate('recipe').lean().select('-__v')
   res.status(StatusCodes.OK).json({ orders })
 }
 
 const getSingleService = async (id, res) => {
-  const order = await Order.findById(id)
+  const order = await Order.findById(id).populate('recipe').lean()
+  console.log(order)
   if (order) {
     res.status(StatusCodes.OK).json({ order })
   } else {
@@ -23,7 +24,6 @@ const getSingleService = async (id, res) => {
 }
 
 const createService = async (body, res) => {
-  console.log(`create order: ${body}`)
   const { recipe } = body
   if (!recipe) {
     res
@@ -32,8 +32,7 @@ const createService = async (body, res) => {
         error: `Every order must have a recipe.`
       })
   }
-  const order = await Order.create(body)
-  console.log(order)
+  const order = await Order.create(body).populate('recipe').lean()
   res
     .status(StatusCodes.OK)
     .json({
@@ -42,6 +41,7 @@ const createService = async (body, res) => {
         id: order._id,
         recipe: order.recipe,
         assigned_users: order.assigned_users,
+        status: order.status,
         recipe: order.recipe,
         createdAt: order.createdAt,
       }
@@ -57,20 +57,17 @@ const updateService = async (id, body, res) => {
         new: true,
         runValidators: true
       }
-    )
+    ).populate('recipe').lean()
   res
     .status(StatusCodes.OK)
     .json({
       message: "order successfully updated!",
-      order: {
-        id: order._id,
-        name: order.name,
-      }
+      order
     })
 }
 
 const deleteService = async (id, res) => {
-  const order = await Order.findOneAndDelete({ _id: id })
+  const order = await Order.findOneAndDelete({ _id: id }).populate('recipe').lean()
   res
     .status(StatusCodes.OK)
     .json({

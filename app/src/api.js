@@ -1,7 +1,6 @@
 import { token, URL } from './utils'
 
 export const db_get = async (endpoint) => {
-  console.log(`endpoint: ${endpoint}`)
   try {
     const resp = await fetch(`${URL}${endpoint}`, {
       method: 'GET',
