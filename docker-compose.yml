@@ -19,7 +19,6 @@ services:
       - users
       - orders
       - app
-      - common
     ports:
       - "80:80"  # Map host port 80 to container port 80
   users:
