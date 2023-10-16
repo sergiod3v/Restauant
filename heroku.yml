@@ -1,0 +1,11 @@
+build:
+  docker:
+    app: ./app
+    nginx-proxy: ./gateway
+    users: ./users
+    orders: ./orders
+run:
+  - app: npm start
+  - nginx-proxy: nginx -g 'daemon off;'
+  - users: npm start
+  - orders: npm start

@@ -13,11 +13,21 @@ const port = process.env.PORT || 3002;
 const baseURL = process.env.BASE_URL || "/api/v1";
 
 const server = http.createServer(app)
-const io = socketIO(server)
 
+const io = socketIO(server, {
+  cors: {
+    origin: '*'
+  }
+});
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins, replace with your specific domains
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  req.io = io;
+  next();
+});
 io.on('connection', (socket) => {
   console.log('A user connected');
-
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
@@ -35,12 +45,7 @@ const authenticateUserMiddleware = require('./middleware/authentication');
 app.use(Helmet())
 app.use(express.json())
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins, replace with your specific domains
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+
 
 app.use(cors({
   origin: "*",
@@ -63,7 +68,7 @@ app.use(notFoundMiddleware)
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI)
-    app.listen(port, () =>
+    server.listen(port, () =>
       console.log(`Orders DB connected, microservice running on -> ${baseURL}/orders`)
     );
   } catch (error) {

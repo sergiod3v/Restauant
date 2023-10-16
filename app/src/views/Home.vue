@@ -43,18 +43,20 @@ import { ref, onMounted, toRaw, watch } from 'vue';
 import { db_get } from '../api';
 import { userData, URL, token } from '../utils';
 
-import { io } from 'socket.io-client'
+import io from 'socket.io-client'
 
 const user = ref({})
 const orders = ref([])
 
-const ordersSocket = io(`${URL}/orders`)
-ordersSocket.on('connect', () => {
-  console.log("Connected to the websocket")
-})
-ordersSocket.on('single-order', (order) => {
-  console.log(order)
-})
+
+const socket = io('http://localhost:3002');
+
+socket.on('order_created', (data) => {
+  console.log("order created")
+});
+socket.on('order_updated', (data) => {
+  console.log("order updated")
+});
 
 const tableHeaders = ref([
   'Order ID',
@@ -73,12 +75,24 @@ onMounted(async () => {
 
 </script>
 
+<style>
+th,
+td {
+  padding: 6px 12px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 3px;
+}
 
-<style lang="scss" scoped>
-table {
-  td {
-    border: 1px solid black;
-    padding: 5px;
-  }
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.yellow {
+  color: yellow;
 }
 </style>
