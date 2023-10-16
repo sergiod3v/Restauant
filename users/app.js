@@ -14,7 +14,7 @@ const authRouter = require('./routes/auth-routes');
 const connectDB = require('./db/connect');
 
 //middleware vars
-const notFoundMiddleware = require('../common/middleware/not-found');
+const notFoundMiddleware = require('./middleware/not-found');
 const authenticateUser = require('./middleware/authentication');
 
 //rotuers

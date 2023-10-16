@@ -1,7 +1,6 @@
 version: "3"
 services:
   app:
-    image: registry.heroku.com/microrestaurant/app 
     build:
       dockerfile: Dockerfile
       context: ./app
@@ -13,17 +12,17 @@ services:
       - .:/app
       - /app/app/node_modules
   nginx-proxy:
-    image: registry.heroku.com/microrestaurant/app 
     build:
       dockerfile: Dockerfile
       context: ./gateway
     depends_on:
       - users
       - orders
+      - app
+      - common
     ports:
       - "80:80"  # Map host port 80 to container port 80
   users:
-    image: registry.heroku.com/microrestaurant/app 
     build:
       dockerfile: Dockerfile
       context: ./users
@@ -35,7 +34,6 @@ services:
       - .:/app
       - /app/users/node_modules
   orders:
-    image: registry.heroku.com/microrestaurant/app 
     build:
       dockerfile: Dockerfile
       context: ./orders

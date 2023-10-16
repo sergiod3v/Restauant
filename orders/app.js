@@ -39,7 +39,7 @@ const orderRouter = require('./routes/order-routes');
 const ingredientRouter = require('./routes/ingredient-routes');
 const recipeRouter = require('./routes/recipe-routes');
 //middleware
-const notFoundMiddleware = require('../common/middleware/not-found');
+const notFoundMiddleware = require('./middleware/not-found');
 const authenticateUserMiddleware = require('./middleware/authentication');
 
 app.use(Helmet())
