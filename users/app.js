@@ -6,7 +6,7 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.USERS_PORT || 3001;
 const baseURL = process.env.BASE_URL || "/api/v1";
 
 const userRouter = require('./routes/user-routes');
@@ -50,7 +50,7 @@ app.use(notFoundMiddleware)
 
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URI)
+    await connectDB(process.env.USERS_MONGO_URI)
     app.listen(port, () =>
       console.log(`Users DB connected, microservice running on -> ${baseURL}/users`)
     );

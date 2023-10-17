@@ -2,10 +2,9 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Order = require('../models/order')
 const { StatusCodes } = require('http-status-codes')
-const axios = require('axios')
 
 const getAllService = async (req, res) => {
-  const orders = await Order.find({}).populate('recipe').lean().select('-__v')
+  const orders = await Order.find({}).populate('recipe')
   res.status(StatusCodes.OK).json({ orders })
 }
 
@@ -22,32 +21,19 @@ const getSingleService = async (id, res) => {
   }
 }
 
-const createService = async (body, res) => {
-  const { recipe } = body
-  if (!recipe) {
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({
-        error: `Every order must have a recipe.`
-      })
-  }
-  const order = await Order.create(body).populate('recipe').lean()
+const createService = async (body, req, res) => {
+  const order = await Order.create(body)
+  const io = req.io
+  io.emit('order_created', order)
   res
     .status(StatusCodes.OK)
     .json({
       message: "Order successfully created!",
-      order: {
-        id: order._id,
-        recipe: order.recipe,
-        assigned_users: order.assigned_users,
-        status: order.status,
-        recipe: order.recipe,
-        createdAt: order.createdAt,
-      }
+      order
     })
 }
 
-const updateService = async (id, body, res) => {
+const updateService = async (id, body, req, res) => {
   const order = await Order
     .findOneAndUpdate(
       { _id: id },
@@ -57,6 +43,9 @@ const updateService = async (id, body, res) => {
         runValidators: true
       }
     ).populate('recipe').lean()
+
+  const io = req.io
+  io.emit('order_updated', order)
   res
     .status(StatusCodes.OK)
     .json({
@@ -78,10 +67,21 @@ const deleteService = async (id, res) => {
     })
 }
 
+const deleteAllService = async (id, res) => {
+  const order = await Order.deleteMany({})
+  res
+    .status(StatusCodes.OK)
+    .json({
+      message: "All recipes successfully deleted",
+      order
+    })
+}
+
 module.exports = {
   getAllService,
   getSingleService,
   updateService,
   deleteService,
-  createService
+  createService,
+  deleteAllService
 } 

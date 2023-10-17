@@ -9,7 +9,7 @@ const http = require('http')
 const socketIO = require('socket.io')
 
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.ORDERS_PORT || 3002;
 const baseURL = process.env.BASE_URL || "/api/v1";
 
 const server = http.createServer(app)
@@ -67,7 +67,7 @@ app.use(notFoundMiddleware)
 
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URI)
+    await connectDB(process.env.ORDERS_MONGO_URI)
     server.listen(port, () =>
       console.log(`Orders DB connected, microservice running on -> ${baseURL}/orders`)
     );

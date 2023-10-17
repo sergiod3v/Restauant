@@ -5,7 +5,8 @@ const {
   getSingleService,
   updateService,
   deleteService,
-  createService
+  createService,
+  deleteAllService
 } = require('../services/recipe-service')
 
 const getAllRecipes = async (req, res) => {
@@ -60,10 +61,21 @@ const deleteRecipe = async (req, res) => {
   }
 }
 
+const deleteAllRecipes = async (req, res) => {
+  try {
+    await deleteAllService(req, res)
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(error)
+  }
+}
+
 module.exports = {
   getAllRecipes,
   getRecipe,
   updateRecipe,
   deleteRecipe,
-  createRecipe
+  createRecipe,
+  deleteAllRecipes
 }

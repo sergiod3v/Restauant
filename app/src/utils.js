@@ -1,4 +1,5 @@
 import { useCookies } from "vue3-cookies";
+import { api_call } from "./api";
 const { cookies } = useCookies();
 export const userData = {
   "id": cookies.get('id'),
@@ -37,4 +38,11 @@ export const URL = "http://localhost:80/api/v1"
 
 export const parseObj = (obj) => {
   return JSON.parse(JSON.stringify(obj))
+}
+
+const utadeo_api = "https://utadeoapi-6dae6e29b5b0.herokuapp.com/api/v1/software-architecture/market-place"
+
+export const buyIngredients = async (ingredient) => {
+  const data = await api_call(`${utadeo_api}?ingredient=${ingredient}`)
+  return data
 }

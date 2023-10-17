@@ -1,78 +1,144 @@
 <template>
-  <div id="home">
-    <p class="blue-1 f-30">
-      Name: {{ user.name }}
-    </p>
+  <div>
     <table>
       <thead>
-        <th v-for="header in tableHeaders" :key="header.id">
+        <th v-for="header in headers" :key="header.id">
           {{ header }}
         </th>
       </thead>
       <tbody>
-        <tr v-for="order in orders" :key="order.id">
+        <tr v-for="(order, index) in orders" :key="order.id">
           <td>
-            <p class="f-20 blue-1 medium">
-              {{ order._id }} <br>
-            </p>
+            {{ index + 1 }}
           </td>
           <td>
-            <p class="f-20 blue-1 medium">
-              {{ order.status }} <br>
-            </p>
+            {{ order._id }}
+          </td>
+          <td :class="chooseClass(order.status)">
+            {{ order.status }}
           </td>
           <td>
-            <p class="f-20 blue-1 medium">
-              {{ order.recipe.name }} <br>
-            </p>
-          </td>
-          <td>
-            <p class="f-20 blue-1 medium">
-              {{ order.assigned_users.length == 0 ? "No users" : order.assigned_users }}
-            </p>
+            {{ order.recipe.name }}
           </td>
         </tr>
       </tbody>
     </table>
-
+    <button @click="createAction">
+      Press to generate order.
+    </button>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, toRaw, watch } from 'vue';
-import { db_get } from '../api';
-import { userData, URL, token } from '../utils';
+import { ref, onMounted, toRaw } from 'vue';
+import io from 'socket.io-client';
+import { db_get, db_post, db_patch } from '../api';
+import { buyIngredients } from '../utils'
 
-import io from 'socket.io-client'
-
-const user = ref({})
-const orders = ref([])
-
-
+// Use an environment variable for the WebSocket URL
+const chooseClass = (status) => {
+  if (status == 'cancelled') {
+    return 'red'
+  } else if (status === 'completed') {
+    return 'green'
+  } else {
+    return 'yellow'
+  }
+}
 const socket = io('http://localhost:3002');
 
-socket.on('order_created', (data) => {
-  console.log("order created")
-});
-socket.on('order_updated', (data) => {
-  console.log("order updated")
-});
+const orders = ref([]);
+const recipes = ref([])
 
-const tableHeaders = ref([
+const headers = [
+  'Number',
   'Order ID',
-  'Status',
-  'Recipe',
-  'Users',
-])
+  'Order Status',
+  'Recipe Name',
+]
+
+const getOrders = async () => {
+  const data = await toRaw(db_get('/orders'))
+  orders.value = data.orders
+}
+const getRecipes = async () => {
+  const data = await toRaw(db_get('/recipes'))
+  recipes.value = data.recipes
+}
 
 onMounted(async () => {
-  const userDB = await toRaw(db_get(`/users/${userData.id}`))
-  user.value = userDB.user
-
-  const ordersDB = await toRaw(db_get(`/orders`))
-  orders.value = ordersDB.orders
+  getOrders()
+  getRecipes()
 })
 
+socket.on('order_created', (data) => {
+  getOrders()
+});
+socket.on('order_updated', (data) => {
+  getOrders()
+});
+
+
+
+const createAction = async () => {
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+  //escoge receta aleatoria
+  let rand = getRandomInt(0, recipes.value.length - 1)
+  const recipe = toRaw(recipes.value[rand])
+  //basic order creation
+  const newOrder = await db_post('/orders', {
+    "recipe": `${recipe._id}`,
+    "status": "pending"
+  })
+  const newOrderData = newOrder.order
+  const ingredients = toRaw(recipe.ingredients)
+  let ingredientNames = []
+  for (const ingredient of ingredients) {
+    const data = await toRaw(db_get(`/ingredients/${ingredient.ingredient}`))
+    const obj = {
+      name: data.ingredient.name,
+      quantity: ingredient.quantities
+    }
+    ingredientNames.push(obj)
+  }
+  // console.log(recipe)
+  const ingredientsInDB = await toRaw(db_get(`/ingredients`))
+
+  let state = ""
+  for (const ingredientInDB of ingredientsInDB.ingredients) {
+    for (const ingredientName of ingredientNames) {
+      if (ingredientName.name === ingredientInDB.name) {
+        if (ingredientName.quantity <= ingredientInDB.quantities) {
+          state = "completed"
+          break
+        } else {
+          const data = await toRaw(buyIngredients(ingredientName.name))
+          if (data.data[ingredientName.name] == 0) {
+            state = "cancelled"
+            break
+          }
+        }
+      }
+    }
+  }
+
+  await toRaw(db_patch(`/orders/${newOrderData._id}`, {
+    status: state
+  }))
+
+}
+
+onMounted(() => {
+  socket.on('connect', () => {
+    console.log('Connected to the Socket.io server.');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from the Socket.io server.');
+  });
+});
 </script>
 
 <style>

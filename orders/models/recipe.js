@@ -11,10 +11,16 @@ const RecipeSchema = new mongoose.Schema(
       unique: [true, 'Recipe with that name already exists']
     },
     ingredients: [
-      { type: mongoose.Types.ObjectId, ref: 'Ingredient' }
-    ]
+      {
+        quantities: {
+          type: Number,
+          default: 1
+        },
+        ingredient: { type: mongoose.Types.ObjectId, ref: 'Ingredient' },
+      },
+    ],
   }, {
   timestamps: true
 }
 )
-module.exports = mongoose.model('Recipe', RecipeSchema)
+module.exports = mongoose.model('Recipe', RecipeSchema, 'recipe')

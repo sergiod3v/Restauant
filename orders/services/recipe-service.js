@@ -3,12 +3,12 @@ const { StatusCodes } = require('http-status-codes')
 const Recipe = require('../models/recipe')
 
 const getAllService = async (req, res) => {
-  const recipes = await Recipe.find({}).select('-__v')
+  const recipes = await Recipe.find({}).populate('ingredients._id').exec()
   res.status(StatusCodes.OK).json({ recipes })
 }
 
 const getSingleService = async (id, res) => {
-  const recipe = await Recipe.findById(id)
+  const recipe = await Recipe.findById(id).populate('ingredients._id')
   if (recipe) {
     res.status(StatusCodes.OK).json({ recipe })
   } else {
@@ -22,6 +22,7 @@ const getSingleService = async (id, res) => {
 
 const createService = async (body, res) => {
   const { name, ingredients } = body
+  console.log(body)
   if (!name) {
     res
       .status(StatusCodes.BAD_REQUEST)
@@ -42,11 +43,7 @@ const createService = async (body, res) => {
     .status(StatusCodes.OK)
     .json({
       message: "Recipe successfully created!",
-      recipe: {
-        id: recipe._id,
-        name: recipe.name,
-        ingredients: recipe.ingredients,
-      }
+      recipe
     })
 }
 
@@ -59,7 +56,7 @@ const updateService = async (id, body, res) => {
         new: true,
         runValidators: true
       }
-    )
+    ).populate('recipe')
   res
     .status(StatusCodes.OK)
     .json({
@@ -73,7 +70,7 @@ const updateService = async (id, body, res) => {
 }
 
 const deleteService = async (id, res) => {
-  const recipe = await Recipe.findOneAndDelete({ _id: id })
+  const recipe = await Recipe.findOneAndDelete({ _id: id }).populate('ingredients._id')
   res
     .status(StatusCodes.OK)
     .json({
@@ -85,10 +82,21 @@ const deleteService = async (id, res) => {
     })
 }
 
+const deleteAllService = async (id, res) => {
+  const recipes = await Recipe.deleteMany({})
+  res
+    .status(StatusCodes.OK)
+    .json({
+      message: "All orders successfully deleted",
+      recipes
+    })
+}
+
 module.exports = {
   getAllService,
   getSingleService,
   updateService,
   deleteService,
-  createService
+  createService,
+  deleteAllService
 } 
