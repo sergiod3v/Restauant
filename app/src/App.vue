@@ -6,10 +6,10 @@ const handleLogOut = logOut
 </script>
 
 <template>
-  <div id="page">
+  <div id="page" class="wrapper">
     <div v-if="isLogged()" class="flex jc-se ai-c">
       <Navbar />
-      <p class="f-28 bold" id="logout" @click="handleLogOut">
+      <p class="f-20 medium" id="logout" @click="handleLogOut">
         Logout
       </p>
     </div>

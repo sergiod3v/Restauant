@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="home">
     <table>
       <thead>
         <th v-for="header in headers" :key="header.id">
@@ -8,7 +8,7 @@
       </thead>
       <tbody>
         <tr v-for="(order, index) in orders" :key="order.id">
-          <td>
+          <td style="font-weight: 600;">
             {{ index + 1 }}
           </td>
           <td>
@@ -141,24 +141,4 @@ onMounted(() => {
 });
 </script>
 
-<style>
-th,
-td {
-  padding: 6px 12px;
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 3px;
-}
-
-.red {
-  color: red;
-}
-
-.green {
-  color: green;
-}
-
-.yellow {
-  color: yellow;
-}
-</style>
+<style></style>
