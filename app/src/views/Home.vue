@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <table>
+    <table v-show="orders.length > 0">
       <thead>
         <th v-for="header in headers" :key="header.id">
           {{ header }}
@@ -17,8 +17,18 @@
           <td :class="chooseClass(order.status)">
             {{ order.status }}
           </td>
+          <td style="text-decoration: underline;">
+            <router-link :to="`/recipes/${order.recipe._id}`">
+              {{ order.recipe.name }}
+            </router-link>
+          </td>
           <td>
-            {{ order.recipe.name }}
+            <span v-if="!order.assigned_users || order.assigned_users.length == 0">
+              No users
+            </span>
+            <span v-else v-for="user in order.assigned_users" :key="user._id">
+              {{ user }}
+            </span>
           </td>
         </tr>
       </tbody>
@@ -34,6 +44,7 @@ import { ref, onMounted, toRaw } from 'vue';
 import io from 'socket.io-client';
 import { db_get, db_post, db_patch } from '../api';
 import { buyIngredients } from '../utils'
+
 
 // Use an environment variable for the WebSocket URL
 const chooseClass = (status) => {
@@ -55,6 +66,7 @@ const headers = [
   'Order ID',
   'Order Status',
   'Recipe Name',
+  'Assigned Users',
 ]
 
 const getOrders = async () => {

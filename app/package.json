@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
     "node-sass": "^9.0.0",
     "pinia": "^2.1.6",
     "sass-loader": "^13.3.2",

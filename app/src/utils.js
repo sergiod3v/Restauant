@@ -32,8 +32,12 @@ export const isLogged = () => {
   }
 }
 
+const in_prod = import.meta.env.VITE_IN_PROD;
+const prod_url = import.meta.env.VITE_PROD_BASE_URL;
+const local_url = import.meta.env.VITE_LOCAL_BASE_URL;
 // export const URL = import.meta.env.BASE_URL
-export const URL = "http://localhost:80/api/v1"
+export const URL = in_prod === 'true' ? prod_url : local_url;
+console.log(`App URL: ${URL}`);
 
 
 export const parseObj = (obj) => {

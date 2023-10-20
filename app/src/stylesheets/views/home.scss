@@ -1,22 +1,33 @@
 @import url('../_variables.scss');
 
-th,
-td {
-  padding: 6px 12px;
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 3px;
-  background: #D2E9E9;
-}
 
-.red {
-  color: red;
-}
+#home {
 
-.green {
-  color: green;
-}
+  th,
+  td {
+    padding: 6px 12px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 3px;
+    background: #D2E9E9;
+  }
 
-.blue {
-  color: blue;
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+
+  .blue {
+    color: blue;
+  }
+
+  button {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 6px 18px;
+    background: #D2E9E9;
+  }
 }
